@@ -1,0 +1,6 @@
+### Idea ###
+
+target/*
+out/*
+*.iml
+.idea
