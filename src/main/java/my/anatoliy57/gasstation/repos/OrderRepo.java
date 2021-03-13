@@ -1,18 +1,13 @@
 package my.anatoliy57.gasstation.repos;
 
 import my.anatoliy57.gasstation.domain.entity.Order;
+import my.anatoliy57.gasstation.repos.iml.Repository;
 
 import java.util.List;
 
-public interface OrderRepo {
+public interface OrderRepo extends Repository<Long, Order> {
 
-    Order findCompletedOrders(Long currentTime);
+    Order findCompletedOrdersByGasStationId(Long currentTime, Long gasStationId);
 
-    Order findById(Long id);
-
-    List<Order> findAll();
-
-    Order save(Order order);
-
-    void deleteById(Long id);
+    List<Order> findAllByGasStationId(Long gasStationId);
 }

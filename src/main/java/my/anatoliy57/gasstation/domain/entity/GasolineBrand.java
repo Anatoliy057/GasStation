@@ -12,7 +12,8 @@ import lombok.ToString;
 public class GasolineBrand {
 
     private Long id;
-    private Long gasStationId;
     private String brand;
     private Integer cost;
+
+    private GasStation gasStation;
 }

@@ -1,19 +1,11 @@
 package my.anatoliy57.gasstation.repos;
 
 import my.anatoliy57.gasstation.domain.entity.GasolineBrand;
-import my.anatoliy57.gasstation.domain.entity.Markup;
+import my.anatoliy57.gasstation.repos.iml.Repository;
 
-import java.util.List;
+public interface GasolineBrandRepo extends Repository<Long, GasolineBrand> {
 
-public interface GasolineBrandRepo {
+    boolean existByBrandAndGasStationId(String brand, Long gasStationId);
 
-    boolean existByBrand(String brand);
-
-    GasolineBrand findById(Long id);
-
-    List<GasolineBrand> findAll();
-
-    GasolineBrand save(GasolineBrand order);
-
-    void deleteById(Long id);
+    GasolineBrand findByBrandAndGasStationId(String brand, Long gasStationId);
 }

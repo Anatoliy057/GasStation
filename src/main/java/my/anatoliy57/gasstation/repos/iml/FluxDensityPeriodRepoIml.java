@@ -3,17 +3,25 @@ package my.anatoliy57.gasstation.repos.iml;
 import my.anatoliy57.gasstation.domain.entity.FluxDensityPeriod;
 import my.anatoliy57.gasstation.repos.FluxDensityPeriodRepo;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-@Component
+import java.util.List;
+
+@Repository
 public class FluxDensityPeriodRepoIml extends ArrayRepo<FluxDensityPeriod> implements FluxDensityPeriodRepo {
 
     @Override
-    public boolean existCurrentPeriod(Long currentTime) {
-        return findCurrentPeriod(currentTime) != null;
+    public boolean existCurrentPeriodByGasStationId(Long currentTime, Long gasStationId) {
+        return findCurrentPeriodByGasStationId(currentTime, gasStationId) != null;
     }
 
     @Override
-    public FluxDensityPeriod findCurrentPeriod(Long currentTime) {
-        return super.findByPredicate((period -> period.getStartTime() < currentTime && period.getEndTime() > currentTime));
+    public FluxDensityPeriod findCurrentPeriodByGasStationId(Long currentTime, Long gasStationId) {
+        return findByPredicate(period -> period.getStartTime() < currentTime && period.getEndTime() > currentTime);
+    }
+
+    @Override
+    public List<FluxDensityPeriod> findAllByGasStationId(Long gasStationId) {
+        return findAllByPredicate(period -> period.getGasStation().getId().equals(gasStationId));
     }
 }

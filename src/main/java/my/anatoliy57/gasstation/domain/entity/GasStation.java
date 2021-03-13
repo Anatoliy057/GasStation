@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.ToString;
 import my.anatoliy57.gasstation.model.enums.TimeSpanType;
 
+import java.util.Set;
+
 @Data
 @Builder
 @ToString
@@ -23,4 +25,9 @@ public class GasStation {
     private TimeSpanType timeSpanType;
     private Integer countTimes;
     private Integer percentChurn;
+
+    private Set<Order> orders;
+    private Set<Markup> markups;
+    private Set<GasolineBrand> brands;
+    private Set<FluxDensityPeriod> periods;
 }

@@ -12,9 +12,10 @@ import lombok.ToString;
 public class Markup {
 
     private Long id;
-    private Long gasolineBrandId;
-    private Long gasStationId;
     private Integer percent;
     private Integer startTime;
     private Integer endTime;
+
+    private GasolineBrand gasolineBrand;
+    private GasStation gasStation;
 }

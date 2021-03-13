@@ -2,6 +2,8 @@ package my.anatoliy57.gasstation.mappers;
 
 import my.anatoliy57.gasstation.domain.dto.FluxDensityPeriodDto;
 import my.anatoliy57.gasstation.domain.entity.FluxDensityPeriod;
+import my.anatoliy57.gasstation.domain.entity.GasStation;
+import my.anatoliy57.gasstation.repos.GasStationRepo;
 import org.mapstruct.*;
 
 import java.util.List;
@@ -13,7 +15,11 @@ import java.util.List;
 )
 public interface FluxDensityPeriodMapper {
 
-    FluxDensityPeriod createFromDto(FluxDensityPeriodDto dto);
+    @Mappings({
+            @Mapping(target = "gasStation",  expression = "java( repo.findById(dto.getGasStationId()) )"),
+            @Mapping(target = "")
+    })
+    FluxDensityPeriod createFromDto(FluxDensityPeriodDto dto, GasStationRepo repo);
 
     @Mappings({
             @Mapping(target = "gasStationId", source = "gasStationId"),

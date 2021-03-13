@@ -12,10 +12,11 @@ import lombok.ToString;
 public class Order {
 
     private Long id;
-    private Long gasolineBrandId;
-    private Long gasStationId;
     private Integer queueId;
     private Integer volume;
     private Long orderTime;
     private Long duration;
+
+    private GasolineBrand gasolineBrand;
+    private GasStation gasStation;
 }

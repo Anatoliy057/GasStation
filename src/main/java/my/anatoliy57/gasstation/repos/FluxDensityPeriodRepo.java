@@ -7,13 +7,15 @@ import java.util.List;
 
 public interface FluxDensityPeriodRepo extends Repository<Long, FluxDensityPeriod> {
 
-    boolean existCurrentPeriod(Long currentTime);
+    boolean existCurrentPeriodByGasStationId(Long currentTime, Long gasStationId);
 
-    FluxDensityPeriod findCurrentPeriod(Long currentTime);
+    FluxDensityPeriod findCurrentPeriodByGasStationId(Long currentTime, Long gasStationId);
 
     FluxDensityPeriod findById(Long id);
 
     List<FluxDensityPeriod> findAll();
+
+    List<FluxDensityPeriod> findAllByGasStationId(Long gasStationId);
 
     FluxDensityPeriod save(FluxDensityPeriod order);
 

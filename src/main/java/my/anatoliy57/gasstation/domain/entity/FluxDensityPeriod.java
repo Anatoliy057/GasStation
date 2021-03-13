@@ -12,8 +12,9 @@ import lombok.ToString;
 public class FluxDensityPeriod {
 
     private Long id;
-    private Long gasStationId;
     private Integer density;
     private Long startTime;
     private Long endTime;
+
+    private GasStation gasStation;
 }
