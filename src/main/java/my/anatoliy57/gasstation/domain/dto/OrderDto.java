@@ -1,22 +1,24 @@
 package my.anatoliy57.gasstation.domain.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
+import my.anatoliy57.gasstation.enums.OrderStatus;
 
 @Data
 @Builder
 @ToString
 @AllArgsConstructor
+@NoArgsConstructor
 public class OrderDto {
 
     private Long id;
-    private Long gasolineBrandId;
-    private Long gasStationId;
+    private Long brandId;
+    private Long stationId;
     private Integer queueId;
     private Integer volume;
     private Long orderTime;
-    private Long duration;
+    private Integer duration;
+    private OrderStatus status;
+
+    private BrandDto brandDto;
 }
 

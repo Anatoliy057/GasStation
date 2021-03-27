@@ -1,18 +1,17 @@
 package my.anatoliy57.gasstation.domain.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
+import my.anatoliy57.gasstation.domain.entity.Station;
 
 @Data
 @Builder
 @ToString
 @AllArgsConstructor
-public class FluxDensityPeriodDto {
+@NoArgsConstructor
+public class PeriodDto {
 
     private Long id;
-    private Long gasStationId;
+    private Long stationId;
     private Integer density;
     private Long startTime;
     private Long endTime;

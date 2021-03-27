@@ -11,4 +11,10 @@ public interface Repository<ID, ENTITY> {
     ENTITY save(ENTITY order);
 
     void deleteById(ID id);
+
+    default ENTITY removeById(ID id) {
+        ENTITY e = findById(id);
+        deleteById(id);
+        return e;
+    }
 }

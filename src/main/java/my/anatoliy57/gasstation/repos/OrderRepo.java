@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface OrderRepo extends Repository<Long, Order> {
 
-    Order findCompletedOrdersByGasStationId(Long currentTime, Long gasStationId);
+    List<Order> findCompletedByStationId(long currentTime, long stationId);
 
-    List<Order> findAllByGasStationId(Long gasStationId);
+    List<Order> findAllByStationId(long stationId);
 }

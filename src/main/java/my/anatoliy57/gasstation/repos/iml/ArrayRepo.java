@@ -1,6 +1,8 @@
 package my.anatoliy57.gasstation.repos.iml;
 
 import lombok.SneakyThrows;
+import my.anatoliy57.gasstation.domain.entity.Order;
+import my.anatoliy57.gasstation.util.IdGenerator;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -9,15 +11,17 @@ import java.util.stream.Collectors;
 
 public class ArrayRepo<V> implements Repository<Long, V> {
 
-    private final Map<Long, V> repo;
+    protected final Map<Long, V> repo;
+    private final IdGenerator idGenerator;
 
     public ArrayRepo() {
         this.repo = Collections.synchronizedMap(new HashMap<>());
+        idGenerator = new IdGenerator();
     }
 
     @Override
     public V findById(Long id) {
-        return get(Math.toIntExact(id));
+        return get(id);
     }
 
     @Override
@@ -28,20 +32,17 @@ public class ArrayRepo<V> implements Repository<Long, V> {
     @SneakyThrows
     @Override
     public V save(V v) {
-        int id = repo.size();
+        long id = idGenerator.generate();
         Field fieldId = v.getClass().getDeclaredField("id");
         fieldId.setAccessible(true);
-        fieldId.set(v, (long) id);
-        repo.put((long) id, v);
+        fieldId.set(v, id);
+        repo.put(id, v);
         return v;
     }
 
     @Override
     public void deleteById(Long id) {
-        V deleted = get(Math.toIntExact(id));
-        if (Objects.nonNull(deleted)) {
-            repo.remove(id);
-        }
+        repo.remove(id);
     }
 
     protected V findByPredicate(Predicate<V> predicate) {
@@ -52,10 +53,7 @@ public class ArrayRepo<V> implements Repository<Long, V> {
         return repo.values().stream().filter(predicate).collect(Collectors.toList());
     }
 
-    private V get(int index) {
-        if(index < 0 || index >= repo.size()) {
-            return null;
-        }
-        return repo.get((long) index);
+    private V get(long id) {
+        return repo.get(id);
     }
 }

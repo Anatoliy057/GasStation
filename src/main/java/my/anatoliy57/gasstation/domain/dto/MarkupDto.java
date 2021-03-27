@@ -1,21 +1,21 @@
 package my.anatoliy57.gasstation.domain.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 @Data
 @Builder
 @ToString
 @AllArgsConstructor
+@NoArgsConstructor
 public class MarkupDto {
 
     private Long id;
-    private Long gasolineBrandId;
-    private Long gasStationId;
+    private Long brandId;
+    private Long stationId;
     private Integer percent;
     private Integer startTime;
     private Integer endTime;
+
+    private BrandDto brandDto;
 }
 

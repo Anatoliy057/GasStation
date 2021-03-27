@@ -1,20 +1,18 @@
 package my.anatoliy57.gasstation.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 @Data
 @Builder
 @ToString
 @AllArgsConstructor
-public class FluxDensityPeriod {
+@NoArgsConstructor
+public class Period {
 
     private Long id;
     private Integer density;
     private Long startTime;
     private Long endTime;
 
-    private GasStation gasStation;
+    private Station station;
 }

@@ -2,6 +2,8 @@ package my.anatoliy57.gasstation.mappers;
 
 import my.anatoliy57.gasstation.domain.dto.OrderDto;
 import my.anatoliy57.gasstation.domain.entity.Order;
+import my.anatoliy57.gasstation.repos.BrandRepo;
+import my.anatoliy57.gasstation.repos.StationRepo;
 import org.mapstruct.*;
 
 import java.util.List;
@@ -13,16 +15,33 @@ import java.util.List;
 )
 public interface OrderMapper {
 
-    Order createFromDto(OrderDto dto);
+    @Mappings({
+            @Mapping(target = "station", expression = "java(stationRepo.findById(dto.getStationId()))"),
+            @Mapping(target = "brand", expression = "java(brandRepo.findById(dto.getBrandId()))"),
+    })
+    Order createFromDto(OrderDto dto, StationRepo stationRepo, BrandRepo brandRepo);
 
     @Mappings({
-            @Mapping(target = "gasStationId", source = "gasStationId"),
+            @Mapping(target = "brand", ignore = true),
+            @Mapping(target = "station", ignore = true),
     })
-    Order createFromDto(Long gasStationId, OrderDto dto);
+    void updateFromDto(OrderDto dto, @MappingTarget Order order);
 
-    void updateFromDto(OrderDto dto, @MappingTarget Order markup);
+    @Mappings({
+            @Mapping(target = "brandDto", ignore = true),
 
-    OrderDto toDto(Order request);
+            @Mapping(target = "stationId", source = "order.station.id"),
+            @Mapping(target = "brandId", source = "order.brand.id"),
+    })
+    OrderDto toDto(Order order);
 
-    List<OrderDto> toDto(List<Order> requests);
+    List<OrderDto> toDto(List<Order> orders);
+
+    @Mappings({
+            @Mapping(target = "stationId", ignore = true),
+            @Mapping(target = "brandId", ignore = true),
+
+            @Mapping(target = "brandDto", expression = "java(brandMapper.toDto(order.getBrand()))"),
+    })
+    OrderDto toFullDto(Order order, BrandMapper brandMapper);
 }

@@ -1,4 +1,4 @@
-package my.anatoliy57.gasstation.model.enums;
+package my.anatoliy57.gasstation.enums;
 
 public enum TimeSpanType {
 
