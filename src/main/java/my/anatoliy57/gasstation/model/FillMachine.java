@@ -1,11 +1,10 @@
 package my.anatoliy57.gasstation.model;
 
 import my.anatoliy57.gasstation.domain.dto.OrderDto;
-import my.anatoliy57.gasstation.domain.entity.Station;
+import my.anatoliy57.gasstation.domain.dto.StationDto;
 import my.anatoliy57.gasstation.enums.OrderStatus;
 import my.anatoliy57.gasstation.exceptions.OrderNotFoundException;
 import my.anatoliy57.gasstation.services.OrderService;
-import org.springframework.context.annotation.Bean;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -24,7 +23,7 @@ public class FillMachine {
     private OrderDto currentOrder;
     private int wait;
 
-    public FillMachine(Station station, OrderService orderService) {
+    public FillMachine(StationDto station, OrderService orderService) {
         this.orderService = orderService;
 
         this.maxQueue = station.getMaxQueue();
@@ -60,5 +59,9 @@ public class FillMachine {
         if (currentOrder != null) {
             wait = (currentOrder.getVolume() - minVolume) * (maxTime - minTime) / (maxVolume - minVolume) + minTime;
         }
+    }
+
+    public int getSizeOrders() {
+        return orders.size();
     }
 }

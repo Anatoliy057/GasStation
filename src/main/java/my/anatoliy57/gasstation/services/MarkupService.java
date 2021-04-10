@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -81,8 +82,8 @@ public class MarkupService {
         return markupMapper.toDto(markupRepo.findById(id));
     }
 
-    public MarkupDto getCurrent(long time, long brandId, long stationId) {
-        return markupMapper.toDto(markupRepo.findCurrentByBrandIdAndStationId(time, brandId, stationId));
+    public Optional<MarkupDto> getCurrent(long time, long brandId, long stationId) {
+        return Optional.ofNullable(markupMapper.toDto(markupRepo.findCurrentByBrandIdAndStationId(time, brandId, stationId)));
     }
 
     public List<MarkupDto> getAllInStation(long stationId) {

@@ -47,8 +47,9 @@ public class OrderFlow {
 
         OrderDto order = generator.generate(currentTime);
 
-        MarkupDto currentMarkup =  markupService.getCurrent(currentTime, order.getBrandId(), order.getStationId());
-        int chance = Math.max(100 - currentMarkup.getPercent() * 3, 0);
+        Optional<MarkupDto> currentMarkupOpt =  markupService.getCurrent(currentTime, order.getBrandId(), order.getStationId());
+        int percent = currentMarkupOpt.map(MarkupDto::getPercent).orElse(0);
+        int chance = Math.max(100 - percent * 3, 0);
         if (random.nextInt(100) < chance) {
             order.setStatus(OrderStatus.REJECTED);
             orderService.update(order);

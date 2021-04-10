@@ -11,8 +11,8 @@ public class Period {
 
     private Long id;
     private Integer density;
-    private Long startTime;
-    private Long endTime;
+    private Integer startTime;
+    private Integer endTime;
 
     private Station station;
 }

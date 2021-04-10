@@ -3,6 +3,7 @@ package my.anatoliy57.gasstation.domain.entity;
 import lombok.*;
 import my.anatoliy57.gasstation.enums.TimeSpanType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -22,10 +23,9 @@ public class Station {
     private Integer maxTimeService;
     private TimeSpanType timeSpanType;
     private Integer defaultDensity;
-    private Integer step;
 
-    private List<Order> orders;
-    private List<Markup> markups;
-    private List<Brand> brands;
-    private List<Period> periods;
+    private List<Order> orders = new ArrayList<>();
+    private List<Markup> markups = new ArrayList<>();
+    private List<Brand> brands = new ArrayList<>();
+    private List<Period> periods = new ArrayList<>();
 }

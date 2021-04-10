@@ -80,7 +80,7 @@ public class OrderService {
         return orderMapper.toFullDto(orderRepo.findById(id), brandMapper);
     }
 
-    public List<OrderDto> getCompletedAsFull(long time, long stationId) {
+    public List<OrderDto> getAllCompletedAsFull(long time, long stationId) {
         return orderRepo.findCompletedByStationId(time, stationId).stream()
                 .map(order -> orderMapper.toFullDto(order, brandMapper))
                 .collect(Collectors.toList());

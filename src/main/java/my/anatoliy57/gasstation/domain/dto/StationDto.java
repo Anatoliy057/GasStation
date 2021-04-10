@@ -23,7 +23,6 @@ public class StationDto {
     private Integer maxTimeService;
     private TimeSpanType timeSpanType;
     private Integer defaultDensity;
-    private Integer step;
 
     private List<OrderDto> orders;
     private List<MarkupDto> markups;
