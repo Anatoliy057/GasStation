@@ -4,8 +4,6 @@ import my.anatoliy57.gasstation.domain.dto.MarkupDto;
 import my.anatoliy57.gasstation.domain.dto.OrderDto;
 import my.anatoliy57.gasstation.domain.dto.PeriodDto;
 import my.anatoliy57.gasstation.domain.dto.StationDto;
-import my.anatoliy57.gasstation.domain.entity.Order;
-import my.anatoliy57.gasstation.domain.entity.Station;
 import my.anatoliy57.gasstation.enums.OrderStatus;
 import my.anatoliy57.gasstation.exceptions.OrderNotFoundException;
 import my.anatoliy57.gasstation.services.MarkupService;
@@ -63,7 +61,7 @@ public class OrderFlow {
             density = currentPeriod.getDensity();
         }
 
-        wait = (int) Math.round(60.0 / density);
+        wait = density;
 
         return Optional.of(order);
     }

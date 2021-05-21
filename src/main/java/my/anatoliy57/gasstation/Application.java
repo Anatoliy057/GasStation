@@ -32,19 +32,19 @@ public class Application implements CommandLineRunner {
         StationDto stationDto = StationDto.builder()
                 .countColumns(2)
                 .maxQueue(5)
-                .maxTimeService(20)
-                .minTimeService(10)
+                .maxTimeService(100)
+                .minTimeService(80)
                 .timeSpanType(TimeSpanType.WEEK)
-                .maxVolumeGasoline(50)
+                .maxVolumeGasoline(20)
                 .minVolumeGasoline(10)
-                .defaultDensity(6)
+                .defaultDensity(200)
                 .name("Test")
                 .build();
         stationDto = stationService.create(stationDto);
 
         BrandDto brandDto = BrandDto.builder()
                 .brand("Brand")
-                .cost(10)
+                .cost(49)
                 .stationId(stationDto.getId())
                 .build();
         brandDto = brandService.create(brandDto);
@@ -52,14 +52,14 @@ public class Application implements CommandLineRunner {
         MarkupDto markupDto = MarkupDto.builder()
                 .endTime(5000)
                 .startTime(1000)
-                .percent(3)
+                .percent(4)
                 .brandId(brandDto.getId())
                 .stationId(stationDto.getId())
                 .build();
         markupDto = markupService.create(markupDto);
 
         PeriodDto periodDto = PeriodDto.builder()
-                .density(10)
+                .density(4000)
                 .startTime(2000)
                 .endTime(4000)
                 .stationId(stationDto.getId())
