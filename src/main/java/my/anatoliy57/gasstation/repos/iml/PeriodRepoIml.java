@@ -6,25 +6,21 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
-public class PeriodRepoIml extends ArrayRepo<Period> implements PeriodRepo {
 
-    @Override
+public class PeriodRepoIml extends ArrayRepo<Period> {
+
     public boolean existCurrentByStationId(long currentTime, long stationId) {
         return findCurrentByStationId(currentTime, stationId) != null;
     }
 
-    @Override
     public Period findCurrentByStationId(long currentTime, long stationId) {
         return findByPredicate(period -> period.getStartTime() < currentTime && period.getEndTime() > currentTime);
     }
 
-    @Override
     public List<Period> findAllByStationId(long stationId) {
         return findAllByPredicate(period -> period.getStation().getId().equals(stationId));
     }
 
-    @Override
     public boolean existPeriodInByStationId(long startTime, long endTime, long stationId) {
         return findByPredicate(
                 period -> period.getStation().getId().equals(stationId)

@@ -6,16 +6,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
-public class OrderRepoIml extends ArrayRepo<Order> implements OrderRepo {
 
-    @Override
+public class OrderRepoIml extends ArrayRepo<Order> {
+
     public List<Order> findCompletedByStationId(long currentTime, long stationId) {
         return super.findAllByPredicate(order -> order.getStation().getId().equals(stationId)
                 && order.getOrderTime() + order.getDuration() < currentTime);
     }
 
-    @Override
     public List<Order> findAllByStationId(long stationId) {
         return super.findAllByPredicate(order -> order.getStation().getId().equals(stationId));
     }

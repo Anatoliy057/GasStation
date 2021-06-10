@@ -75,5 +75,6 @@ public class Application implements CommandLineRunner {
             sum += o.getBrandDto().getCost() * o.getVolume();
         }
         System.out.println("Доход " + sum);
+
     }
 }

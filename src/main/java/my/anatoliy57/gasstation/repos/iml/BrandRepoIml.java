@@ -6,21 +6,18 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
-public class BrandRepoIml extends ArrayRepo<Brand> implements BrandRepo {
 
-    @Override
-    public boolean existByNameAndStationId(String name, long stationId) {
+public class BrandRepoIml extends ArrayRepo<Brand>  {
+
+    public boolean existByBrandAndStationId(String name, long stationId) {
         return findByNameAndStationId(name, stationId) != null;
     }
 
-    @Override
     public Brand findByNameAndStationId(String name, long stationId) {
         return findByPredicate(gasolineBrand -> gasolineBrand.getBrand().equals(name)
                 && gasolineBrand.getStation().getId().equals(stationId));
     }
 
-    @Override
     public List<Brand> findAllByStationId(long stationId) {
         return findAllByPredicate(brand -> brand.getStation().getId().equals(stationId));
     }

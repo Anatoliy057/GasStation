@@ -60,12 +60,13 @@ public class MarkupService {
     }
 
     public MarkupDto update(MarkupDto dto) throws MarkupNotFoundException {
-        long id = dto.getId();
-        Markup markup = markupRepo.findById(id);
+        Long id = dto.getId();
+        Optional<Markup> markupOpt = markupRepo.findById(id);
 
-        if (markup == null) {
+        if (markupOpt.isEmpty()) {
             throw new MarkupNotFoundException(id);
         }
+        Markup markup = markupOpt.get();
 
         markupMapper.updateFromDto(dto, markup);
 
@@ -74,12 +75,17 @@ public class MarkupService {
         return markupMapper.toDto(markup);
     }
 
-    public MarkupDto remove(long id) {
-        return markupMapper.toDto(markupRepo.removeById(id));
+    public void remove(long id) {
+        markupRepo.deleteById(id);
     }
 
-    public MarkupDto get(long id) {
-        return markupMapper.toDto(markupRepo.findById(id));
+    public MarkupDto get(long id) throws MarkupNotFoundException {
+        Optional<Markup> markupOpt = markupRepo.findById(id);
+        if (markupOpt.isEmpty()) {
+            throw new MarkupNotFoundException(id);
+        }
+        Markup markup = markupOpt.get();
+        return markupMapper.toDto(markup);
     }
 
     public Optional<MarkupDto> getCurrent(long time, long brandId, long stationId) {
@@ -90,8 +96,13 @@ public class MarkupService {
         return markupMapper.toDto(markupRepo.findAllByStationId(stationId));
     }
 
-    public MarkupDto getAsFull(long id) {
-        return markupMapper.toFullDto(markupRepo.findById(id), brandMapper);
+    public MarkupDto getAsFull(long id) throws MarkupNotFoundException {
+        Optional<Markup> markupOpt = markupRepo.findById(id);
+        if (markupOpt.isEmpty()) {
+            throw new MarkupNotFoundException(id);
+        }
+        Markup markup = markupOpt.get();
+        return markupMapper.toFullDto(markup, brandMapper);
     }
 
     public MarkupDto getCurrentAsFull(long time, long brandId, long stationId) {

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,7 +42,7 @@ public class BrandService {
     public BrandDto create(BrandDto dto) throws BrandNameExistException {
         String name = dto.getBrand();
         long stationId = dto.getStationId();
-        if (brandRepo.existByNameAndStationId(name, stationId)) {
+        if (brandRepo.existsByBrandAndStation_Id(name, stationId)) {
             throw new BrandNameExistException(name, stationId);
         }
 
@@ -54,17 +55,19 @@ public class BrandService {
 
     public BrandDto update(BrandDto dto) throws BrandNotFoundException, BrandNameExistException {
         long id = dto.getId();
-        Brand brand = brandRepo.findById(id);
+        Optional<Brand> brandOpt = brandRepo.findById(id);
 
-        if (brand == null) {
+        if (brandOpt.isEmpty()) {
             throw new BrandNotFoundException(id);
         }
+        Brand brand = brandOpt.get();
 
         String name = dto.getBrand();
         long stationId = dto.getStationId();
-        Brand brandNamed = brandRepo.findByNameAndStationId(name, dto.getStationId());
 
-        if (brandNamed != null && brandNamed != brand) {
+        brandOpt = brandRepo.findByBrandAndStation_Id(name, stationId);
+
+        if (brandOpt.isEmpty()) {
             throw new BrandNameExistException(name, stationId);
         }
 
@@ -75,38 +78,63 @@ public class BrandService {
         return brandMapper.toDto(brand);
     }
 
-    public BrandDto remove(long id) {
-        return brandMapper.toDto(brandRepo.removeById(id));
+    public void remove(long id) {
+        brandRepo.deleteById(id);
     }
 
     boolean exist(String name, long stationId) {
-        return brandRepo.existByNameAndStationId(name, stationId);
+        return brandRepo.existsByBrandAndStation_Id(name, stationId);
     }
 
-    public BrandDto get(long id) {
-        return brandMapper.toDto(brandRepo.findById(id));
+    public BrandDto get(long id) throws BrandNotFoundException {
+        Optional<Brand> brandOpt = brandRepo.findById(id);
+
+        if (brandOpt.isEmpty()) {
+            throw new BrandNotFoundException(id);
+        }
+        Brand brand = brandOpt.get();
+
+        return brandMapper.toDto(brand);
     }
 
-    public BrandDto get(String name, long stationId) {
-        return brandMapper.toDto(brandRepo.findByNameAndStationId(name, stationId));
+    public BrandDto get(String name, long stationId) throws BrandNameExistException {
+        Optional<Brand> brandOpt = brandRepo.findByBrandAndStation_Id(name, stationId);
+
+        if (brandOpt.isEmpty()) {
+            throw new BrandNameExistException(name, stationId);
+        }
+        Brand brand = brandOpt.get();
+        return brandMapper.toDto(brand);
     }
 
     public List<BrandDto> getAllInStation(long stationId) {
-        return brandRepo.findAllByStationId(stationId).stream()
+        return brandRepo.findAllByStation_Id(stationId).stream()
                 .map(brandMapper::toDto)
                 .collect(Collectors.toList());
     }
 
-    public BrandDto getAsFull(long id) {
-        return brandMapper.toFullDto(brandRepo.findById(id), orderMapper, markupMapper);
+    public BrandDto getAsFull(long id) throws BrandNotFoundException {
+        Optional<Brand> brandOpt = brandRepo.findById(id);
+
+        if (brandOpt.isEmpty()) {
+            throw new BrandNotFoundException(id);
+        }
+        Brand brand = brandOpt.get();
+        return brandMapper.toFullDto(brand, orderMapper, markupMapper);
     }
 
-    public BrandDto getAsFull(String name, long stationId) {
-        return brandMapper.toFullDto(brandRepo.findByNameAndStationId(name, stationId), orderMapper, markupMapper);
+    public BrandDto getAsFull(String name, long stationId) throws BrandNameExistException {
+        Optional<Brand> brandOpt = brandRepo.findByBrandAndStation_Id(name, stationId);
+
+        if (brandOpt.isEmpty()) {
+            throw new BrandNameExistException(name, stationId);
+        }
+        Brand brand = brandOpt.get();
+        return brandMapper.toFullDto(brand, orderMapper, markupMapper);
     }
 
     public List<BrandDto> getAllInStationAsFull(long stationId) {
-        return brandRepo.findAllByStationId(stationId).stream()
+        return brandRepo.findAllByStation_Id(stationId).stream()
                 .map(brand -> brandMapper.toFullDto(brand, orderMapper, markupMapper))
                 .collect(Collectors.toList());
     }

@@ -1,11 +1,14 @@
 package my.anatoliy57.gasstation.repos;
 
 import my.anatoliy57.gasstation.domain.entity.Station;
-import my.anatoliy57.gasstation.repos.iml.Repository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface StationRepo extends Repository<Long, Station> {
+@Repository
+public interface StationRepo extends CrudRepository<Station, Long> {
 
     Station findByName(String name);
 
-    boolean existByName(String name);
+    boolean existsByName(String name);
 }

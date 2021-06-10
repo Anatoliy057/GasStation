@@ -18,7 +18,7 @@ public interface BrandMapper {
             @Mapping(target = "markups", ignore = true),
             @Mapping(target = "orders", ignore = true),
 
-            @Mapping(target = "station",  expression = "java( stationRepo.findById(dto.getStationId()) )"),
+            @Mapping(target = "station",  expression = "java( stationRepo.findById(dto.getStationId()).orElseThrow())"),
     })
     Brand createFromDto(BrandDto dto, StationRepo stationRepo);
 

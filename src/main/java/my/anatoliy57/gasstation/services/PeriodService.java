@@ -2,7 +2,6 @@ package my.anatoliy57.gasstation.services;
 
 import my.anatoliy57.gasstation.domain.dto.PeriodDto;
 import my.anatoliy57.gasstation.domain.entity.Period;
-import my.anatoliy57.gasstation.exceptions.IntersectionMarkupsException;
 import my.anatoliy57.gasstation.exceptions.IntersectionPeriodsException;
 import my.anatoliy57.gasstation.exceptions.PeriodNotFoundException;
 import my.anatoliy57.gasstation.mappers.PeriodMapper;
@@ -12,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PeriodService {
@@ -51,11 +51,12 @@ public class PeriodService {
 
     public PeriodDto update(PeriodDto dto) throws PeriodNotFoundException {
         long id = dto.getId();
-        Period period = periodRepo.findById(id);
+        Optional<Period> periodOpt = periodRepo.findById(id);
 
-        if (period == null) {
+        if (periodOpt.isEmpty()) {
             throw new PeriodNotFoundException(id);
         }
+        Period period = periodOpt.get();
 
         periodMapper.updateFromDto(dto, period);
 
@@ -64,16 +65,23 @@ public class PeriodService {
         return periodMapper.toDto(period);
     }
 
-    public PeriodDto remove(long id) {
-        return periodMapper.toDto(periodRepo.removeById(id));
+    public void remove(long id) {
+        periodRepo.deleteById(id);
     }
 
     boolean exist(long currentTime, long stationId) {
         return periodRepo.existCurrentByStationId(currentTime, stationId);
     }
 
-    public PeriodDto get(long id) {
-        return periodMapper.toDto(periodRepo.findById(id));
+    public PeriodDto get(long id) throws PeriodNotFoundException {
+        Optional<Period> periodOpt = periodRepo.findById(id);
+
+        if (periodOpt.isEmpty()) {
+            throw new PeriodNotFoundException(id);
+        }
+        Period period = periodOpt.get();
+
+        return periodMapper.toDto(period);
     }
 
     public PeriodDto getCurrent(long currentTime, long stationId) {
@@ -81,6 +89,6 @@ public class PeriodService {
     }
 
     public List<PeriodDto> getAllInStation(long stationId) {
-        return periodMapper.toDto(periodRepo.findAllByStationId(stationId));
+        return periodMapper.toDto(periodRepo.findAllByStation_Id(stationId));
     }
 }

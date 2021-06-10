@@ -17,8 +17,8 @@ import java.util.List;
 public interface MarkupMapper {
 
     @Mappings({
-            @Mapping(target = "station", expression = "java(stationRepo.findById(dto.getStationId()))"),
-            @Mapping(target = "brand", expression = "java(brandRepo.findById(dto.getBrandId()))"),
+            @Mapping(target = "station", expression = "java(stationRepo.findById(dto.getStationId()).orElseThrow())"),
+            @Mapping(target = "brand", expression = "java(brandRepo.findById(dto.getBrandId()).orElseThrow())"),
     })
     Markup createFromDto(MarkupDto dto, StationRepo stationRepo, BrandRepo brandRepo);
 

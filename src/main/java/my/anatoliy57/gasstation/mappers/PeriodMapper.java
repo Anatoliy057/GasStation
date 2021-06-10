@@ -15,7 +15,7 @@ import java.util.List;
 public interface PeriodMapper {
 
     @Mappings({
-            @Mapping(target = "station",  expression = "java( stationRepo.findById(dto.getStationId()) )"),
+            @Mapping(target = "station",  expression = "java( stationRepo.findById(dto.getStationId()).orElseThrow() )"),
     })
     Period createFromDto(PeriodDto dto, StationRepo stationRepo);
 

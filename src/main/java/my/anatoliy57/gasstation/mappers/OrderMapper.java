@@ -16,8 +16,8 @@ import java.util.List;
 public interface OrderMapper {
 
     @Mappings({
-            @Mapping(target = "station", expression = "java(stationRepo.findById(dto.getStationId()))"),
-            @Mapping(target = "brand", expression = "java(brandRepo.findById(dto.getBrandId()))"),
+            @Mapping(target = "station", expression = "java(stationRepo.findById(dto.getStationId()).orElseThrow())"),
+            @Mapping(target = "brand", expression = "java(brandRepo.findById(dto.getBrandId()).orElseThrow())"),
     })
     Order createFromDto(OrderDto dto, StationRepo stationRepo, BrandRepo brandRepo);
 

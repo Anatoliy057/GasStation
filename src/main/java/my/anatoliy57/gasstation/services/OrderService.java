@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,11 +48,12 @@ public class OrderService {
 
     public OrderDto update(OrderDto dto) throws OrderNotFoundException {
         long id = dto.getId();
-        Order order = orderRepo.findById(id);
+        Optional<Order> orderOpt = orderRepo.findById(id);
 
-        if (order == null) {
+        if (orderOpt.isEmpty()) {
             throw new OrderNotFoundException(id);
         }
+        Order order = orderOpt.get();
 
         orderMapper.updateFromDto(dto, order);
 
@@ -60,12 +62,18 @@ public class OrderService {
         return orderMapper.toDto(order);
     }
 
-    public OrderDto remove(long id) {
-        return orderMapper.toDto(orderRepo.removeById(id));
+    public void remove(long id) {
+        orderRepo.deleteById(id);
     }
 
-    public OrderDto get(long id) {
-        return orderMapper.toDto(orderRepo.findById(id));
+    public OrderDto get(long id) throws OrderNotFoundException {
+        Optional<Order> orderOpt = orderRepo.findById(id);
+
+        if (orderOpt.isEmpty()) {
+            throw new OrderNotFoundException(id);
+        }
+        Order order = orderOpt.get();
+        return orderMapper.toDto(order);
     }
 
     public List<OrderDto> getAllCompleted(long time, long stationId) {
@@ -73,11 +81,17 @@ public class OrderService {
     }
 
     public List<OrderDto> getAllInStation(long stationId) {
-        return orderMapper.toDto(orderRepo.findAllByStationId(stationId));
+        return orderMapper.toDto(orderRepo.findAllByStation_Id(stationId));
     }
 
-    public OrderDto getAsFull(long id) {
-        return orderMapper.toFullDto(orderRepo.findById(id), brandMapper);
+    public OrderDto getAsFull(long id) throws OrderNotFoundException {
+        Optional<Order> orderOpt = orderRepo.findById(id);
+
+        if (orderOpt.isEmpty()) {
+            throw new OrderNotFoundException(id);
+        }
+        Order order = orderOpt.get();
+        return orderMapper.toFullDto(order, brandMapper);
     }
 
     public List<OrderDto> getAllCompletedAsFull(long time, long stationId) {
@@ -87,7 +101,7 @@ public class OrderService {
     }
 
     public List<OrderDto> getAllInStationAsFull(long stationId) {
-        return orderRepo.findAllByStationId(stationId).stream()
+        return orderRepo.findAllByStation_Id(stationId).stream()
                 .map(order -> orderMapper.toFullDto(order, brandMapper))
                 .collect(Collectors.toList());
     }

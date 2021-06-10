@@ -1,15 +1,18 @@
 package my.anatoliy57.gasstation.repos;
 
 import my.anatoliy57.gasstation.domain.entity.Brand;
-import my.anatoliy57.gasstation.repos.iml.Repository;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface BrandRepo extends Repository<Long, Brand> {
+@Repository
+public interface BrandRepo extends CrudRepository<Brand, Long> {
 
-    boolean existByNameAndStationId(String name, long stationId);
+    boolean existsByBrandAndStation_Id(String brand, long stationId);
 
-    Brand findByNameAndStationId(String name, long stationId);
+    Optional<Brand> findByBrandAndStation_Id(String brand, long stationId);
 
-    List<Brand> findAllByStationId(long stationId);
+    List<Brand> findAllByStation_Id(long stationId);
 }

@@ -9,7 +9,9 @@ import my.anatoliy57.gasstation.repos.StationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StationService {
@@ -39,7 +41,7 @@ public class StationService {
 
     public StationDto create(StationDto dto) throws StationNameExistException {
         String name = dto.getName();
-        if (stationRepo.existByName(name)) {
+        if (stationRepo.existsByName(name)) {
             throw new StationNameExistException(name);
         }
 
@@ -52,11 +54,12 @@ public class StationService {
 
     public StationDto update(StationDto dto) throws StationNotFoundException, StationNameExistException {
         long id = dto.getId();
-        Station station = stationRepo.findById(id);
+        Optional<Station> stationOpt = stationRepo.findById(id);
 
-        if (station == null) {
+        if (stationOpt.isEmpty()) {
             throw new StationNotFoundException(id);
         }
+        Station station = stationOpt.get();
 
         String name = dto.getName();
         Station stationNamed = stationRepo.findByName(name);
@@ -72,33 +75,38 @@ public class StationService {
         return stationMapper.toDto(station);
     }
 
-    public StationDto remove(long id) {
-        Station station = stationRepo.removeById(id);
-
-        return stationMapper.toDto(station);
+    public void remove(long id) {
+        stationRepo.deleteById(id);
     }
 
     public List<StationDto> getAll() {
-        return stationMapper.toDto(stationRepo.findAll());
+        ArrayList<Station> stations = new ArrayList<>();
+        stationRepo.findAll().forEach(stations::add);
+        return stationMapper.toDto(stations);
     }
 
     public StationDto search(String name) {
         return stationMapper.toDto(stationRepo.findByName(name));
     }
 
-    public StationDto getFull(long id) {
-        Station station = stationRepo.findById(id);
+    public StationDto getFull(long id) throws StationNotFoundException {
+        Optional<Station> stationOpt = stationRepo.findById(id);
+
+        if (stationOpt.isEmpty()) {
+            throw new StationNotFoundException(id);
+        }
+        Station station = stationOpt.get();
 
         return stationMapper.toFullDto(station, orderMapper, markupMapper, brandMapper, periodMapper);
     }
 
-    public StationDto get(long id) {
-        return stationMapper.toDto(stationRepo.findById(id));
-    }
+    public StationDto get(long id) throws StationNotFoundException {
+        Optional<Station> stationOpt = stationRepo.findById(id);
 
-    public void startGasStation(long id) {
-        Station station = stationRepo.findById(id);
-
-        // todo business logic
+        if (stationOpt.isEmpty()) {
+            throw new StationNotFoundException(id);
+        }
+        Station station = stationOpt.get();
+        return stationMapper.toDto(station);
     }
 }
