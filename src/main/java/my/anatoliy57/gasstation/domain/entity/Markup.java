@@ -4,8 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity(name = "markups")
-@Table(name = "markups")
+@Entity(name = "MARKUPS")
+@Table(name = "MARKUPS")
 @Data
 @Builder
 @ToString
@@ -15,18 +15,18 @@ public class Markup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_markup")
+    @Column(name = "ID_MARKUP")
     private Long id;
     private Integer percent;
-    @Column(name = "start_time")
+    @Column(name = "START_TIME")
     private Integer startTime;
-    @Column(name = "end_time")
+    @Column(name = "END_TIME")
     private Integer endTime;
 
     @ManyToOne
-    @JoinColumn(name = "brand_id")
+    @JoinColumn(name = "BRAND_ID")
     private Brand brand;
     @ManyToOne
-    @JoinColumn(name = "station_id")
+    @JoinColumn(name = "STATION_ID")
     private Station station;
 }

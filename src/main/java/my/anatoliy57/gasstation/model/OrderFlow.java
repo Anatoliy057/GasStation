@@ -37,7 +37,7 @@ public class OrderFlow {
         random = new Random();
     }
 
-    public Optional<OrderDto> getOrder(long currentTime) throws OrderNotFoundException {
+    public Optional<OrderDto> getOrder(int currentTime) throws OrderNotFoundException {
         if (wait > 0) {
             wait--;
             return Optional.empty();

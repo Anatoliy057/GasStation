@@ -33,7 +33,7 @@ public class ModelService {
 
     public void run(StationDto station) throws GasStationException {
         long maxTime = station.getTimeSpanType().getMaxTime();;
-        long currentTime = 0;
+        int currentTime = 0;
 
         List<FillMachine> machines;
         OrderFlow orderFlow;

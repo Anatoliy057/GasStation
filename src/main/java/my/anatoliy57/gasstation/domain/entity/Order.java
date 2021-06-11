@@ -5,8 +5,8 @@ import my.anatoliy57.gasstation.enums.OrderStatus;
 
 import javax.persistence.*;
 
-@Entity(name = "orders")
-@Table(name = "orders")
+@Entity(name = "ORDERS")
+@Table(name = "ORDERS")
 @Data
 @Builder
 @ToString
@@ -16,20 +16,20 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_order")
+    @Column(name = "ID_ORDER")
     private Long id;
-    @Column(name = "queue_id")
+    @Column(name = "QUEUE_ID")
     private Integer queueId;
     private Integer volume;
-    @Column(name = "order_time")
+    @Column(name = "ORDER_TIME")
     private Long orderTime;
     private Long duration;
     private OrderStatus status = OrderStatus.SERVICING;
 
     @ManyToOne
-    @JoinColumn(name = "brand_id")
+    @JoinColumn(name = "BRAND_ID")
     private Brand brand;
     @ManyToOne
-    @JoinColumn(name = "station_id")
+    @JoinColumn(name = "STATION_ID")
     private Station station;
 }

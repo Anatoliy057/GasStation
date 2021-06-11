@@ -4,8 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity(name = "periods")
-@Table(name = "periods")
+@Entity(name = "PERIODS")
+@Table(name = "PERIODS")
 @Data
 @Builder
 @ToString
@@ -15,15 +15,15 @@ public class Period {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_period")
+    @Column(name = "ID_PERIOD")
     private Long id;
     private Integer density;
-    @Column(name = "start_time")
+    @Column(name = "START_TIME")
     private Integer startTime;
-    @Column(name = "end_time")
+    @Column(name = "END_TIME")
     private Integer endTime;
 
     @ManyToOne
-    @JoinColumn(name = "station_id")
+    @JoinColumn(name = "STATION_ID")
     private Station station;
 }

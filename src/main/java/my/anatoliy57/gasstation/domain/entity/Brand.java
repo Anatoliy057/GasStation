@@ -6,8 +6,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "brands")
-@Table(name = "brands")
+@Entity(name = "BRANDS")
+@Table(name = "BRANDS")
 @Data
 @Builder
 @ToString
@@ -17,17 +17,17 @@ public class Brand {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_brand")
+    @Column(name = "ID_BRAND")
     private Long id;
     private String brand;
     private Integer cost;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Markup> markups = new ArrayList<>();
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Order> orders = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "station_id")
+    @JoinColumn(name = "STATION_ID")
     private Station station;
 }

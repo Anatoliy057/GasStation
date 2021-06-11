@@ -12,15 +12,15 @@ public interface MarkupRepo extends CrudRepository<Markup, Long> {
 
     @Query(value = "SELECT * FROM markups m WHERE m.BRAND_ID = ?2 AND m.START_TIME <= ?1 AND ?1 < END_TIME AND m.STATION_ID = ?3",
             nativeQuery = true)
-    Markup findCurrentByBrandIdAndStationId(long currentTime, long brandId, long stationId);
+    Markup findCurrentByBrandIdAndStationId(int currentTime, long brandId, long stationId);
 
-    @Query(value = "SELECT CASE WHEN COUNT(m) >= 1 THEN true ELSE false END FROM markups m WHERE m.brand.id = ?2 AND m.station.id = ?3 AND  m.startTime <= ?1 AND ?1 < m.endTime",
+    @Query(value = "SELECT CASE WHEN COUNT(m) >= 1 THEN true ELSE false END FROM MARKUPS m WHERE m.brand.id = ?2 AND m.station.id = ?3 AND  m.startTime <= ?1 AND ?1 < m.endTime",
             nativeQuery = false)
-    boolean existCurrentByBrandIdAndStationId(long currentTime, long brandId, long stationId);
+    boolean existCurrentByBrandIdAndStationId(int currentTime, long brandId, long stationId);
 
-    @Query(value = "SELECT CASE WHEN COUNT(m) >= 1 THEN true ELSE false END FROM markups m WHERE m.brand.id = ?3 AND m.station.id = ?4 AND  m.startTime <= ?1 AND ?2 >= m.endTime",
+    @Query(value = "SELECT CASE WHEN COUNT(m) >= 1 THEN true ELSE false END FROM MARKUPS m WHERE m.brand.id = ?3 AND m.station.id = ?4 AND  m.startTime <= ?1 AND ?2 >= m.endTime",
             nativeQuery = false)
-    boolean existMarkupInByBrandIdAndStationId(long startTime, long endTime, long brandId, long stationId);
+    boolean existMarkupInByBrandIdAndStationId(int startTime, int endTime, long brandId, long stationId);
 
     List<Markup> findAllByStationId(long stationId);
 }

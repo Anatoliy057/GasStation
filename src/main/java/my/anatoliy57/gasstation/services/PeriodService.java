@@ -32,8 +32,8 @@ public class PeriodService {
 
     public PeriodDto create(PeriodDto dto) throws IntersectionPeriodsException {
         long stationId = dto.getStationId();
-        long start = dto.getStartTime();
-        long end = dto.getEndTime();
+        int start = dto.getStartTime();
+        int end = dto.getEndTime();
         if (
                 periodRepo.existCurrentByStationId(start, stationId)
                         || periodRepo.existCurrentByStationId(end, stationId)
@@ -69,7 +69,7 @@ public class PeriodService {
         periodRepo.deleteById(id);
     }
 
-    boolean exist(long currentTime, long stationId) {
+    boolean exist(int currentTime, long stationId) {
         return periodRepo.existCurrentByStationId(currentTime, stationId);
     }
 
@@ -84,7 +84,7 @@ public class PeriodService {
         return periodMapper.toDto(period);
     }
 
-    public PeriodDto getCurrent(long currentTime, long stationId) {
+    public PeriodDto getCurrent(int currentTime, long stationId) {
         return periodMapper.toDto(periodRepo.findCurrentByStationId(currentTime, stationId));
     }
 

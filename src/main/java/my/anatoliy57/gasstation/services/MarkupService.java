@@ -42,8 +42,8 @@ public class MarkupService {
     public MarkupDto create(MarkupDto dto) throws IntersectionMarkupsException {
         long brandId = dto.getBrandId();
         long stationId = dto.getStationId();
-        long start = dto.getStartTime();
-        long end = dto.getEndTime();
+        int start = dto.getStartTime();
+        int end = dto.getEndTime();
         if (
                 markupRepo.existCurrentByBrandIdAndStationId(start, brandId, stationId)
                         || markupRepo.existCurrentByBrandIdAndStationId(end, brandId, stationId)
@@ -88,7 +88,7 @@ public class MarkupService {
         return markupMapper.toDto(markup);
     }
 
-    public Optional<MarkupDto> getCurrent(long time, long brandId, long stationId) {
+    public Optional<MarkupDto> getCurrent(int time, long brandId, long stationId) {
         return Optional.ofNullable(markupMapper.toDto(markupRepo.findCurrentByBrandIdAndStationId(time, brandId, stationId)));
     }
 
@@ -105,7 +105,7 @@ public class MarkupService {
         return markupMapper.toFullDto(markup, brandMapper);
     }
 
-    public MarkupDto getCurrentAsFull(long time, long brandId, long stationId) {
+    public MarkupDto getCurrentAsFull(int time, long brandId, long stationId) {
         return markupMapper.toFullDto(markupRepo.findCurrentByBrandIdAndStationId(time, brandId, stationId), brandMapper);
     }
 
